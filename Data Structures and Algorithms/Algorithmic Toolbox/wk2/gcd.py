@@ -1,4 +1,5 @@
 def gcd(a, b):
+    """return Greatest Common Denominator of a and b"""
     if b > a:
         a, b = b, a
     if b == 0:

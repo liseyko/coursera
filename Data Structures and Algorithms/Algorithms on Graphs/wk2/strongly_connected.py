@@ -1,3 +1,4 @@
+#Uses python3
 import sys
 sys.setrecursionlimit(200000)
 
@@ -56,28 +57,6 @@ class Graph():
                 self.n_of_cc += 1
                 self.explore(v,update_order=True)
 
-
-    def _acyclic_explore(self,v):
-        self.explored.add(v.id)
-        self.cycle.add(v.id)
-        for w in v.adj:
-            if w in self.cycle:
-                return False
-            if w not in self.explored:
-                if not self._acyclic_explore(self.vertices[w]):
-                    return False
-        self.cycle.discard(v.id)
-        return True
-
-    def is_acyclic(self):
-        self._explore_init()
-        self.cycle = set()
-        for v in self.vertices:
-            if v.id not in self.explored:
-                if not self._acyclic_explore(v):
-                    return False
-        return True
-
     def toposorted_list(self):
         return [v for v in sorted(self.vertices,key=lambda x: x.post,reverse=True)]
 
@@ -99,10 +78,4 @@ if __name__ == '__main__':
     n, data = data[0], data[2:]
     g = Graph(n)
     g.load(data)
-    for v in g.vertices:
-        print(f'{v.id}: ({v.pre}/{v.post}), adj: {v.adj}')
     print(g.n_of_scc())
-    #print(' '.join(str(i+1) for i in g.toposort()))
-
-
-    

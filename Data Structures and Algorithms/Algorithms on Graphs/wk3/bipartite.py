@@ -120,21 +120,19 @@ class Graph():
             return False
         if len(self.vertices) < 2:
             return 0
-
-        dist = [None for _ in range(len(self.vertices))]
         self.vertices[0].data = True
         for i in range(2):
-            q = deque(self.vertices[i])
+            q = deque([self.vertices[i]])
             while q:
                 v = q.popleft()
-                for w in self.vertices[v].adj:
+                for w in v.adj:
                     w = self.vertices[w]
                     if w.data is None:
                         w.data = v.data != True
                         q.append(w)
                     elif w.data != (v.data != True):
                         return 0
-        return -1
+        return 1
 
 
     def toposorted_list(self):
@@ -156,15 +154,11 @@ class Graph():
 if __name__ == '__main__':
     data = list(map(int,sys.stdin.read().split()))
     #n, data = data[0], data[2:]
-    n, data, s, d = data[0], data[2:-2], data[-2]-1, data[-1]-1
+    n, data = data[0], data[2:]
     g = Graph(n)
     #g.load(data)
     g.load(data,directed = False)
+    print(g.is_bipartite())
     #for v in g.vertices:
-    #    print(f'{v.id}: ({v.pre}/{v.post}), adj: {v.adj}')
-    print(g.distance(s,d),g.path(s,d))
+    #    print(f'{v.id}: ({v.data})')
 
-    
-
-
-    

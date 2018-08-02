@@ -277,9 +277,34 @@ class Graph():
                 #print(v_grp)
         return result
 
-    def minimum_distance(self):
-        return format(sum(self.mst_kruskal()[2::3]), '.9f')
+    def mst_prim(self):
+        cost = [float('inf') for _ in self.vertices]
+        parent = [None for _ in self.vertices]
+        cost[0] = 0
+        h = []
+        self._explore_init()
+        heappush(h, (0,self.vertices[0]))
+        while len(h) > 0 and len(self.explored) < len(self.vertices):
+            _, u = heappop(h)
+            #print('exploring:', u.id)
+            self.explored.add(u.id)
+            for v_id in u.adj:
+                v = self.vertices[v_id]
+                #print(f'{v_id} not explored: {v_id not in self.explored} and {cost[v_id]} > {u.wgt[v_id]}')
+                if v_id not in self.explored and cost[v_id] > u.wgt[v_id]:
+                    #print('sub_exploring:', v_id)
+                    cost[v_id] = u.wgt[v_id]
+                    parent[v_id] = u.id
+                    heappush(h, (cost[v_id], v))
+                    #print('pushed',v_id,':',u.id,'-',v_id, '|', cost[v_id])
+        result = list(sum([[parent[i],i,cost[i]] for i in range(1,len(parent))], []))
+        return result
 
+    def minimum_distance(self):
+        #print(self.mst_kruskal())
+        #print(self.mst_prim())
+        #print(format(sum(self.mst_kruskal()[2::3]), '.9f') == format(sum(self.mst_prim()[2::3]), '.9f'))
+        return format(sum(self.mst_kruskal()[2::3]), '.9f')
 
 
 if __name__ == '__main__':

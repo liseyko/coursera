@@ -3,7 +3,7 @@ import sys
 from copy import deepcopy
 from heapq import heappush, heappop
 
-class VerticeBase():
+class Vertex():
     def __init__(self, id):
         self.id = id
         self.adj = []
@@ -14,7 +14,7 @@ class VerticeBase():
 class Graph():
     def __init__(self, n_of_vertices=0, directed=True, weighted=True):
         self.inf = n*10**6
-        self.vertices = [VerticeBase(i) for i in range(n_of_vertices)]
+        self.vertices = [Vertex(i) for i in range(n_of_vertices)]
         self.verticesR = deepcopy(self.vertices)
         self.dist = [self.inf for _ in self.vertices]
         self.directed = directed

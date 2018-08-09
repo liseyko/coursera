@@ -1,3 +1,5 @@
 __pycache__/
 .vscode
 init.cmd
+test*.in
+test*.out
